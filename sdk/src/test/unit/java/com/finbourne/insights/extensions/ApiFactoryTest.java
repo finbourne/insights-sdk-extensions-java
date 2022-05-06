@@ -1,9 +1,8 @@
 package com.finbourne.insights.extensions;
 
 import com.finbourne.insights.ApiClient;
-// UNCOMMENT BELOW LINES IMPORTING THE API(S) YOU WANT TO TEST, AND AN ARBITRARY OBJECT FOR AN EXCEPTION TEST
-// import com.finbourne.insights.api.;
-// import com.finbourne.insights.model.;
+import com.finbourne.insights.api.RequestsApi;
+import com.finbourne.insights.model.AccessControlledResource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,46 +26,45 @@ public class ApiFactoryTest {
         apiFactory = new ApiFactory(apiClient);
     }
 
-    // UNCOMMENT BELOW TESTS AND MODIFY THEM FOR THE DESIRED SDK - DRIVE EXAMPLES BEING SHOWN HERE
     // General Cases
 
-    // @Test
-    // public void build_ForFilesApi_ReturnFilesApi(){
-    //     FilesApi filesApi = apiFactory.build(FilesApi.class);
-    //     assertThat(filesApi, instanceOf(FilesApi.class));
-    // }
+     @Test
+     public void build_ForRequestsApi_ReturnRequestsApi(){
+         RequestsApi requestsApi = apiFactory.build(RequestsApi.class);
+         assertThat(requestsApi, instanceOf(RequestsApi.class));
+     }
 
-    // @Test
-    // public void build_ForAnyApi_SetsTheApiFactoryClientAndNotTheDefault(){
-    //     FilesApi filesApi = apiFactory.build(FilesApi.class);
-    //     assertThat(filesApi.getApiClient(), equalTo(apiClient));
-    // }
+     @Test
+     public void build_ForAnyApi_SetsTheApiFactoryClientAndNotTheDefault(){
+         RequestsApi requestsApi = apiFactory.build(RequestsApi.class);
+         assertThat(requestsApi.getApiClient(), equalTo(apiClient));
+     }
 
-    // // Singleton Check Cases
+     // Singleton Check Cases
 
-    // @Test
-    // public void build_ForSameApiBuiltAgainWithSameFactory_ReturnTheSameSingletonInstanceOfApi(){
-    //     FilesApi filesApi = apiFactory.build(FilesApi.class);
-    //     FilesApi filesApiSecond = apiFactory.build(FilesApi.class);
-    //     assertThat(filesApi, sameInstance(filesApiSecond));
-    // }
+     @Test
+     public void build_ForSameApiBuiltAgainWithSameFactory_ReturnTheSameSingletonInstanceOfApi(){
+         RequestsApi requestsApi = apiFactory.build(RequestsApi.class);
+         RequestsApi requestsApiSecond = apiFactory.build(RequestsApi.class);
+         assertThat(requestsApi, sameInstance(requestsApiSecond));
+     }
 
-    // @Test
-    // public void build_ForSameApiBuiltWithDifferentFactories_ReturnAUniqueInstanceOfApi(){
-    //     FilesApi filesApi = apiFactory.build(FilesApi.class);
-    //     FilesApi filesApiSecond = new ApiFactory(mock(ApiClient.class)).build(FilesApi.class);
-    //     assertThat(filesApi, not(sameInstance(filesApiSecond)));
-    // }
+     @Test
+     public void build_ForSameApiBuiltWithDifferentFactories_ReturnAUniqueInstanceOfApi(){
+         RequestsApi requestsApi = apiFactory.build(RequestsApi.class);
+         RequestsApi requestsApiSecond = new ApiFactory(mock(ApiClient.class)).build(RequestsApi.class);
+         assertThat(requestsApi, not(sameInstance(requestsApiSecond)));
+     }
 
-    // // Error Cases
+     // Error Cases
 
-    // @Test
-    // public void build_ForNonApiPackageClass_ShouldThrowException(){
-    //     thrown.expect(UnsupportedOperationException.class);
-    //     thrown.expectMessage("com.finbourne.drive.model.StorageObject class is not a supported API class. " +
-    //             "Supported API classes live in the " + ApiFactory.API_PACKAGE + " package.");
-    //     apiFactory.build(StorageObject.class);
-    // }
+     @Test
+     public void build_ForNonApiPackageClass_ShouldThrowException(){
+         thrown.expect(UnsupportedOperationException.class);
+         thrown.expectMessage("com.finbourne.insights.model.AccessControlledResource class is not a supported API class. " +
+                 "Supported API classes live in the " + ApiFactory.API_PACKAGE + " package.");
+         apiFactory.build(AccessControlledResource.class);
+     }
 
 
 
