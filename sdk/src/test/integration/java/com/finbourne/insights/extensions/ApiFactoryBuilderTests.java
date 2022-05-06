@@ -1,9 +1,8 @@
 package com.finbourne.insights.extensions;
 
 import com.finbourne.insights.ApiException;
-// UNCOMMENT BELOW TWO LINES TO IMPORT AN API AND THE TYPE A CALL FROM IT RETURNS
-// import com.finbourne.insights.api.;
-// import com.finbourne.insights.model.;
+import com.finbourne.insights.api.AccessEvaluationsApi;
+import com.finbourne.insights.model.ResourceListWithHistogramOfAccessEvaluationLog;
 import com.finbourne.insights.extensions.auth.FinbourneTokenException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,26 +12,25 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertThat;
 
-// UNCOMMENT BELOW TESTS AND USE IMPORTED API TO MAKE A VALID CALL - DRIVE FOLDERS API IS BEING USED AS AN EXAMPLE
-// public class ApiFactoryBuilderTests {
+ public class ApiFactoryBuilderTests {
 
-//     @Rule
-//     public ExpectedException thrown = ExpectedException.none();
+     @Rule
+     public ExpectedException thrown = ExpectedException.none();
 
-//     @Test
-//     public void build_WithExistingConfigurationFile_ShouldReturnFactory() throws ApiException, ApiConfigurationException, FinbourneTokenException {
-//         ApiFactory apiFactory = ApiFactoryBuilder.build(CredentialsSource.credentialsFile);
-//         assertThat(apiFactory, is(notNullValue()));
-//         assertThatFactoryBuiltApiCanMakeApiCalls(apiFactory);
-//     }
+     @Test
+     public void build_WithExistingConfigurationFile_ShouldReturnFactory() throws ApiException, ApiConfigurationException, FinbourneTokenException {
+         ApiFactory apiFactory = ApiFactoryBuilder.build(CredentialsSource.credentialsFile);
+         assertThat(apiFactory, is(notNullValue()));
+         assertThatFactoryBuiltApiCanMakeApiCalls(apiFactory);
+     }
 
-//     private static void assertThatFactoryBuiltApiCanMakeApiCalls(ApiFactory apiFactory) throws ApiException {
-//         FoldersApi foldersApi = apiFactory.build(FoldersApi.class);
-//         PagedResourceListOfStorageObject rootFolder = foldersApi.getRootFolder(null, null, null, null, null);
-//         assertThat("Folders API created by factory should return root folder"
-//                 , rootFolder, is(notNullValue()));
-//         assertThat("Root folder contents types returned by the folders API should not be empty",
-//                 rootFolder.getValues(), not(empty()));
-//     }
+     private static void assertThatFactoryBuiltApiCanMakeApiCalls(ApiFactory apiFactory) throws ApiException {
+         AccessEvaluationsApi accessEvaluationsApi = apiFactory.build(AccessEvaluationsApi.class);
+         ResourceListWithHistogramOfAccessEvaluationLog listWithHistogramOfRequestLog = accessEvaluationsApi.listAccessEvaluationLogs(null, null, 50, null, null);
+         assertThat("Requests API created by factory should return list of requests"
+                 , listWithHistogramOfRequestLog, is(notNullValue()));
+         assertThat("List of requests contents types returned by the requests API should not be empty",
+                 listWithHistogramOfRequestLog.getValues(), not(empty()));
+     }
 
-// }
+ }
